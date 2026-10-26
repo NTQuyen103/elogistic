@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EVANDON - Quản lý vận đơn</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/app.css') }}" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+<div id="app">
+ <aside id="side"></aside>
+ <div class="col">
+  <header class="top">
+   <button class="ib" id="burger" aria-label="Menu">&#9776;</button>
+   <input class="inp gs" id="gs" placeholder="Tra cứu nhanh theo mã vận đơn hoặc từ khóa, nhấn Enter..." aria-label="Tra cứu nhanh">
+   <span class="sp"></span>
+   <div class="pop"><button class="ib" id="bell" aria-label="Thông báo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#34476B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 10-12 0c0 7-3 8-3 8h18s-3-1-3-8M13.7 20a2 2 0 01-3.4 0"/></svg><span id="nb" hidden></span></button>
+    <div class="pp" id="np" hidden><div class="nh"><b>Thông báo</b><button class="lnk" id="mr">Đánh dấu đã đọc</button></div><div id="nl"></div></div></div>
+   <div class="pop"><button class="ub" id="ub"></button>
+    <div class="pp sm" id="um" hidden><a href="#/profile">Hồ sơ cá nhân</a><a href="#" id="lo">Đăng xuất</a></div></div>
+  </header>
+  <main id="main"></main>
+ </div>
+</div>
+<div id="toasts"></div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

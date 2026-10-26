@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đăng nhập - E-Logistics</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#1D6FE0;--blueH:#1759B8;--navy:#0B2A6B;--tx:#1F2A44;--mu:#6B7A99;--line:#D9E2F0}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--tx);min-height:100vh;display:grid;grid-template-columns:1.12fr 1fr}
+
+/* ===== Cột trái: nhận diện thương hiệu ===== */
+.hero{position:relative;padding:60px 72px 36px;display:flex;flex-direction:column;overflow:hidden;
+  background:linear-gradient(180deg,#BEDFFA 0%,#D9ECFC 36%,#6D94C6 70%,#1E3F74 100%)}
+/* Muốn dùng ảnh thật: lưu ảnh vào static/img/login-bg.jpg, bỏ comment dòng dưới và xóa thẻ <svg class="scene"> trong HTML
+.hero{background:url("/static/img/login-bg.jpg") center/cover no-repeat} */
+.logo{display:flex;align-items:center;gap:14px}
+.logo b{display:block;font-size:34px;line-height:1.1;color:var(--navy);letter-spacing:-.5px}
+.logo span{color:#2D4D87;font-size:15px}
+.hero h1{margin:56px 0 12px;font-size:32px;line-height:1.3;color:var(--navy)}
+.hero p{margin:0;max-width:520px;color:#3F5A8C;font-size:16px;line-height:1.7}
+.scene{margin-top:auto;width:100%;height:auto;display:block}
+.feat{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px;text-align:center;color:#fff}
+.feat svg{width:34px;height:34px;fill:none;stroke:#fff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;margin-bottom:8px}
+.feat b{display:block;font-size:13.5px}.feat small{font-size:12px;color:#C5D6F0}
+
+/* ===== Cột phải: form đăng nhập ===== */
+.side{position:relative;background:#F6F9FE;display:grid;place-items:center;padding:32px;overflow:hidden}
+.side::before{content:"";position:absolute;top:-140px;right:-160px;width:440px;height:440px;border-radius:50%;background:#EAF2FD}
+.side::after{content:"";position:absolute;bottom:-180px;right:-120px;width:420px;height:420px;border-radius:50%;background:#EEF4FD}
+.card{position:relative;z-index:1;width:min(540px,100%);background:#fff;border-radius:18px;padding:56px 60px 44px;box-shadow:0 18px 50px rgba(20,60,120,.10)}
+.card h2{margin:0 0 8px;font-size:28px;color:var(--navy)}
+.card .sub{margin:0 0 34px;color:var(--mu);font-size:15.5px}
+.m-logo{display:none}
+.f{position:relative;margin-bottom:18px}
+.f .l{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:20px;height:20px;fill:none;stroke:#5F7090;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.f input{width:100%;height:58px;border:1px solid var(--line);border-radius:10px;padding:0 50px 0 54px;font:inherit;font-size:15px;color:var(--tx);background:#fff}
+.f input::placeholder{color:#7B89A6}
+.f input:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 4px rgba(29,111,224,.14)}
+.eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:none;cursor:pointer;padding:8px;display:grid}
+.eye svg{width:20px;height:20px;fill:none;stroke:#5F7090;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.row{display:flex;justify-content:space-between;align-items:center;margin:4px 0 26px;font-size:14.5px}
+.row label{display:flex;align-items:center;gap:10px;cursor:pointer}
+.row input{width:18px;height:18px;accent-color:var(--blue);margin:0}
+a.lnk{color:var(--blue);text-decoration:none;font-weight:500;cursor:pointer}a.lnk:hover{text-decoration:underline}
+.btn{width:100%;height:58px;border-radius:10px;border:0;background:var(--blue);color:#fff;font:600 16px Inter,system-ui,sans-serif;cursor:pointer;display:flex;gap:10px;align-items:center;justify-content:center;transition:background .15s,box-shadow .15s,transform .1s}
+.btn:hover{background:var(--blueH);box-shadow:0 8px 20px rgba(29,111,224,.30)}.btn:active{transform:translateY(1px)}.btn:disabled{opacity:.6;cursor:default}
+.btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn.o{background:#fff;color:var(--blue);border:1px solid #8DB5F0;height:56px;font-size:15px;font-weight:500}.btn.o:hover{background:#F2F7FF;box-shadow:none}
+.or{display:flex;align-items:center;gap:16px;color:var(--mu);margin:24px 0;font-size:14px}.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.foot{margin:34px 0 0;text-align:center;color:var(--mu);font-size:13.5px}.foot b{color:var(--tx);font-weight:500}
+.demo{margin:14px 0 0;text-align:center;color:#93A0BA;font-size:12px}.demo a{cursor:pointer;color:#6B7A99;text-decoration:underline}
+.msg{display:none;margin-bottom:18px;padding:11px 14px;border-radius:8px;font-size:14px}
+.msg.err{display:block;background:#FDECEC;color:#B42323;border:1px solid #F3C2C2}.msg.info{display:block;background:#E8F1FD;color:#1D4FB5;border:1px solid #BFD6F7}
+
+@media(max-width:900px){
+  body{grid-template-columns:1fr}.hero{display:none}.side{padding:20px;min-height:100vh}
+  .card{padding:36px 24px 30px}.m-logo{display:flex;align-items:center;gap:10px;margin-bottom:22px;font-weight:700;font-size:22px;color:var(--navy)}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Cột trái ===== -->
+<section class="hero">
+  <div class="logo">
+    <svg width="84" height="60" viewBox="0 0 84 60" aria-hidden="true"><path d="M3 16h12M0 25h15M6 34h9" stroke="#2B7BEA" stroke-width="4" stroke-linecap="round"/><path d="M18 8h38v36H18z" fill="#1D6FE0"/><path d="M56 19h14l11 13v12H56z" fill="#1A55C2"/><circle cx="32" cy="46" r="7" fill="#0B2A6B"/><circle cx="32" cy="46" r="2.8" fill="#fff"/><circle cx="68" cy="46" r="7" fill="#0B2A6B"/><circle cx="68" cy="46" r="2.8" fill="#fff"/></svg>
+    <div><b>E-Logistics</b><span>Kết nối hành trình - Giao nhanh giá trị</span></div>
+  </div>
+  <h1>Hệ thống quản lý vận đơn<br>E-Logistics</h1>
+  <p>Giúp doanh nghiệp vận chuyển, theo dõi và quản lý vận đơn dễ dàng, nhanh chóng và hiệu quả.</p>
+
+  <!-- Hình minh họa (SVG): đường bay, máy bay, tàu container, xe tải -->
+  <svg class="scene" viewBox="0 0 760 330" aria-hidden="true">
+    <g fill="none" stroke="#fff" stroke-opacity=".75" stroke-dasharray="3 6" stroke-width="1.5"><path d="M70 190Q230 30 420 95"/><path d="M300 120Q480 20 640 120"/></g>
+    <g transform="translate(520 92) rotate(-14)"><path d="M-8 0L-50 -48L-28 -48L28 0Z" fill="#E4ECF7"/><path d="M-8 0L-50 48L-28 48L28 0Z" fill="#CFDBEC"/><ellipse rx="78" ry="10" fill="#fff"/><path d="M-70 0L-90 -26L-76 -26L-52 0Z" fill="#fff"/></g>
+    <path d="M345 252H640L606 290H380Z" fill="#1B2F58"/><rect x="345" y="244" width="295" height="8" fill="#C0392B"/>
+    <g><rect x="400" y="212" width="44" height="32" fill="#C9473B"/><rect x="446" y="212" width="44" height="32" fill="#2F6FDE"/><rect x="492" y="212" width="44" height="32" fill="#E9A23B"/><rect x="538" y="212" width="44" height="32" fill="#2B9AA0"/><rect x="423" y="180" width="44" height="32" fill="#2F6FDE"/><rect x="469" y="180" width="44" height="32" fill="#C9473B"/><rect x="515" y="180" width="44" height="32" fill="#E9A23B"/></g>
+    <rect x="360" y="196" width="30" height="48" fill="#EEF3FA"/>
+    <g stroke="#2B7BEA" stroke-width="3" fill="none"><path d="M610 250V160L690 160"/><path d="M610 160L650 250M690 160V250"/></g>
+    <rect x="40" y="226" width="170" height="64" rx="3" fill="#E9F1FB"/><path d="M210 238H252L274 262V290H210Z" fill="#fff"/><path d="M222 246H248L262 262H222Z" fill="#9CC2EE"/>
+    <circle cx="70" cy="292" r="15" fill="#1B2F58"/><circle cx="70" cy="292" r="6" fill="#B8C6DC"/><circle cx="168" cy="292" r="15" fill="#1B2F58"/><circle cx="168" cy="292" r="6" fill="#B8C6DC"/><circle cx="244" cy="292" r="15" fill="#1B2F58"/><circle cx="244" cy="292" r="6" fill="#B8C6DC"/>
+  </svg>
+
+  <div class="feat">
+    <div><svg viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5v8l9 5 9-5zM3 8l9 5 9-5M12 13v8"/></svg><b>Quản lý vận đơn</b><small>Tập trung, chính xác</small></div>
+    <div><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><b>Theo dõi hành trình</b><small>Theo thời gian thực</small></div>
+    <div><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><b>An toàn, bảo mật</b><small>Dữ liệu được bảo vệ</small></div>
+    <div><svg viewBox="0 0 24 24"><path d="M5 20v-6M11 20V9M17 20V4M22 20H2"/></svg><b>Báo cáo thống kê</b><small>Hỗ trợ ra quyết định</small></div>
+  </div>
+</section>
+
+<!-- ===== Cột phải ===== -->
+<section class="side">
+  <form class="card" id="f" autocomplete="on">
+    <div class="m-logo">E-Logistics</div>
+    <h2>Đăng nhập hệ thống</h2>
+    <p class="sub">Vui lòng nhập thông tin tài khoản của bạn</p>
+    <div class="msg" id="msg" role="alert"></div>
+
+    <div class="f">
+      <svg class="l" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <input id="u" placeholder="Tên đăng nhập hoặc email" autocomplete="username" required autofocus aria-label="Tên đăng nhập hoặc email">
+    </div>
+    <div class="f">
+      <svg class="l" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
+      <input id="p" type="password" placeholder="Mật khẩu" autocomplete="current-password" required aria-label="Mật khẩu">
+      <button type="button" class="eye" id="eye" aria-label="Hiện/ẩn mật khẩu"></button>
+    </div>
+
+    <div class="row">
+      <label><input type="checkbox" id="r" checked> Ghi nhớ đăng nhập</label>
+      <a class="lnk" id="fg">Quên mật khẩu?</a>
+    </div>
+
+    <button class="btn" id="go">Đăng nhập <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    <div class="or">Hoặc</div>
+    <button type="button" class="btn o" id="other"><svg viewBox="0 0 24 24" style="width:20px;height:20px"><circle cx="10" cy="8" r="4"/><path d="M3 21c0-4 3-6 7-6M17 15v6M14 18h6"/></svg>Đăng nhập bằng tài khoản khác</button>
+
+    <p class="foot">Chưa có tài khoản? <b>Liên hệ quản trị viên hệ thống</b></p>
+    <!-- Dòng gợi ý demo: có thể xóa khi nộp bài -->
+    <p class="demo">Tài khoản demo (mật khẩu 123456):
+      <a data-u="customer">Khách hàng</a> · <a data-u="shipper">Shipper</a> · <a data-u="admin">Admin</a></p>
+  </form>
+</section>
+
+<script>
+const $ = id => document.getElementById(id);
+const EYE_OFF = '<svg viewBox="0 0 24 24"><path d="M3 3l18 18M10.6 6.1A9.8 9.8 0 0112 6c5 0 8.5 4 9.5 6-.4.8-1.2 2-2.4 3.1M6.7 6.8C4.6 8.2 3.3 10.2 2.5 12c1 2 4.5 6 9.5 6 1.5 0 2.8-.4 4-1M9.9 9.9a3 3 0 004.2 4.2"/></svg>';
+const EYE_ON = '<svg viewBox="0 0 24 24"><path d="M2.5 12C3.5 10 7 6 12 6s8.5 4 9.5 6c-1 2-4.5 6-9.5 6s-8.5-4-9.5-6z"/><circle cx="12" cy="12" r="3"/></svg>';
+$("eye").innerHTML = EYE_OFF;
+$("eye").onclick = () => { const hide = $("p").type === "password"; $("p").type = hide ? "text" : "password"; $("eye").innerHTML = hide ? EYE_ON : EYE_OFF; };
+
+function show(text, type) { const m = $("msg"); m.textContent = text; m.className = "msg " + type; }
+$("fg").onclick = () => show("Vui lòng liên hệ quản trị viên hệ thống để được cấp lại mật khẩu.", "info");
+$("other").onclick = () => { $("u").value = ""; $("p").value = ""; $("msg").className = "msg"; $("u").focus(); };   // xóa form để nhập tài khoản khác
+document.querySelectorAll("[data-u]").forEach(a => a.onclick = () => { $("u").value = a.dataset.u; $("p").value = "123456"; });
+
+$("f").onsubmit = async e => {
+  e.preventDefault(); $("msg").className = "msg"; $("go").disabled = true;
+  try {
+    const r = await fetch("/api/login", {method: "POST", headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({username: $("u").value, password: $("p").value, remember: $("r").checked})});
+    const d = await r.json().catch(() => ({error: "Lỗi máy chủ"}));
+    if (r.ok) location = "/"; else show(d.error, "err");
+  } catch (x) { show("Không kết nối được máy chủ", "err"); }
+  $("go").disabled = false;
+};
+</script>
+</body>
+</html>
